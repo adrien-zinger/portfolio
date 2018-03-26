@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:og="http://ogp.me/ns#">
+
+<head>
+    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="css/photoswipe.css">
+    <link rel="stylesheet" href="css/default-skin.css">
+    <script src="js/photoswipe.min.js"></script>
+    <script src="js/photoswipe-ui-default.min.js"></script>
+    <script src="js/shuffle.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/shuffle.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+        .content {
+            overflow-x: hidden;
+            overflow-y: scroll;
+        }
+
+        .content::-webkit-scrollbar {
+            width: 30px;
+        }
+
+        .content::-webkit-scrollbar * {
+            background: transparent;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: rgba(255, 0, 0, 0.1) !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav role="navigation">
+        <div id="menuToggle">
+            <input type="checkbox" />
+            <span></span>
+            <span></span>
+            <span></span>
+            <ul id="menu">
+                <button id="tout" style="color : white;" onclick="filter(this)">All</button><br>
+                <button id="Category 1" style="color : white;" onclick="filter(this)">Category 1</button><br>
+            </ul>
+        </div>
+    </nav>
+
+
+    <center>
+        <h1 id="title">Protfolio</h1>
+        <p style="width: 50%; margin-top:20px; margin-bottom:20px;">
+            My Protfolio</br>
+        </p>
+    </center>
+
+    <div class="container shuffle-wrap" style="padding-bottom: 50px;">
+        <div id="myGallery" class="my-grid-with-images row" itemscope itemtype="http://schema.org/ImageGallery">
+            <!--
+            {id:0,"description":"Danya",size:"2339x3204‪",url:"danya.jpg",category:"none"}
+            -->
+            <figure xmlns="http://www.w3.org/1999/xhtml" class="js-item img-item col-3@sm col-3@xs" itemscope="" itemprop="associatedMedia"
+                itemtype="http://schema.org/ImageObject" category="none">
+                <a class="aspect aspect--16x9" href="image/danya.jpg" itemprop="contentUrl" data-size="2339x3204‪">
+                    <img src="image/small/danya.jpg" itemprop="thumbnail" />
+                </a>
+                <figcaption>Danya</figcaption>
+            </figure>
+
+        </div>
+    </div>
+
+    <div id="footer" style="position: fixed; top: 0; right: 0; left: 0; background: rgb(20, 20, 20);">
+        <div style="position: absolute; left: 5px" class="fb-like" data-href="https://fr-fr.facebook.com/adalrozin/" data-layout="button"
+            data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+
+        <div id="filters" style="position: absolute; top : 5px">
+            <center>
+                <div class="fa fa-filter" style="color: rgb(100, 100, 100);"></div>
+                <button id="tout" style="color : white;" onclick="filter(this)">All</button>
+                <button id="Category 1" style="color : white;" onclick="filter(this)">Category 1</button>
+            </center>
+        </div>
+    </div>
+
+    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                            <div class="pswp__preloader__cut">
+                                <div class="pswp__preloader__donut"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div>
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                </button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                </button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <center>
+        <button id="moreBtn">
+            <div class="fa fa-angle-left"></div> more
+        </button>
+    </center>
+
+    <script src="js/gallery.js"></script>
+    <script src="imageInfos.js"></script>
+    <script>
+        var currentFilter = "";
+        initPhotoSwipeFromDOM('.my-grid-with-images');
+        var myGallery = document.getElementById("myGallery");
+        var offset = 10;
+        var moreBtn = document.getElementById("moreBtn");
+
+        var Shuffle = window.Shuffle;
+        window.shuffleInstance = new Shuffle(document.querySelector('.my-grid-with-images'), {
+            itemSelector: '.js-item',
+            //sizer: '.my-sizer-element',
+        });
+
+        function shuffleArray(array) {
+            var currentIndex = array.length,
+                temporaryValue, randomIndex;
+            while (0 !== currentIndex) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+            }
+            return array;
+        }
+
+        shuffleArray(images);
+
+        function showNext() {
+            var elts = [];
+            for (var i = 0; i < offset; ++i) {
+                var img = (currentFilter !== "") ?
+                    getNext(currentFilter) : images.pop();
+                if (img === undefined) {
+                    moreBtn.style.display = 'none';
+                    break;
+                }
+                moreBtn.style.display = 'block';
+                var node = getImageNode(img);
+                window.shuffleInstance.element.appendChild(node);
+                elts.push(document.getElementById('img' + img.id));
+            }
+            window.shuffleInstance.add(elts);
+            setTimeout(() => {
+                window.shuffleInstance.sort(null);
+            }, 200);
+        }
+
+        function getNext(category) {
+            for (var i = 0; i < images.length; ++i) {
+                if (images[i].category.indexOf(category) !== -1) {
+                    var img = images[i];
+                    images.splice(i, 1);
+                    return img;
+                }
+            }
+        }
+
+        showNext();
+
+        function filter(f) {
+            if (f.id === 'tout') {
+                return window.shuffleInstance.filter(Shuffle.ALL_ITEMS);
+            }
+            window.shuffleInstance.filter(function (e) {
+                var category = e.getAttribute('category');
+                if (category !== undefined && category !== null && category.indexOf(f.id) !== -1) {
+                    return true;
+                }
+                e.removeAttribute('itemscope');
+                return false;
+            });
+            currentFilter = f.id;
+            showNext();
+        }
+
+        moreBtn.onclick = function () {
+            showNext();
+        }
+    </script>
+</body>
+
+</html>
